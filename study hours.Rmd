@@ -1,0 +1,134 @@
+---
+title: "Study_hours dataset"
+output: html_notebook
+---
+
+# Install and load necessary libraries
+```{r}
+library(ggplot2)
+```
+
+# Load the dataset
+```{r}
+study_hours =read.csv("E://1st Sem/PROGRAMMING/Study hours/study hours .csv")
+```
+
+# View the first few rows
+```{r}
+head(study_hours,5)
+```
+#Summary
+```{r}
+summary(study_hours)
+```
+# Inspect the data
+```{r}
+str(study_hours)
+```
+# Clean the data by handling missing values
+```{r}
+is.na(study_hours)
+```
+#Finding null values
+```{r}
+colSums(is.na(study_hours))
+```
+# Data Visualization - Scatter plot
+```{r}
+ggplot(study_hours, aes(x = Hours, y = Scores)) +
+  geom_point(color = "purple") +
+  ggtitle("Scatter Plot of Study Hours vs. Scores") +
+  xlab("Study Hours") +
+  ylab("Scores")
+```
+
+# Find unique values in the "Hours" column
+```{r}
+unique(study_hours$Hours)
+
+unique(study_hours$Scores)
+```
+# Box plot 
+```{r}
+ggplot(study_hours, aes(x = Hours, y = Scores)) +
+  geom_boxplot() +
+  ggtitle("Scatter plot of hours vs. scores")
+```
+
+# Build the regression model predicting Scores based on Hours
+```{r}
+model <- lm(Scores ~ Hours, data = study_hours)
+summary(model)
+```
+
+# Create a scatter plot with the regression line
+```{r}
+ggplot(study_hours, aes(x = Hours, y = Scores)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "blue") +
+  ggtitle("Scatter plot of Hours vs. Scores with Regression Line")
+```
+# Create a histogram of study hours
+```{r}
+ggplot(study_hours, aes(x = Hours)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  ggtitle("Histogram of Study Hours") +
+  xlab("Hours") +
+  ylab("Frequency")
+```
+
+# Create a histogram of scores
+```{r}
+ggplot(study_hours, aes(x = Scores)) +
+  geom_histogram(binwidth = 5, fill = "green", color = "black") +
+  ggtitle("Histogram of Scores") +
+  xlab("Scores") +
+  ylab("Frequency")
+```
+```{r}
+predictions <- predict(model, newdata = study_hours)
+```
+
+
+# Compare the predictions with the actual values
+```{r}
+dim(Hours)
+
+# Check the length of predictions
+length(predictions)
+
+# Create a new dataframe with predictors (assuming 'new_study' is your new data)
+new_study <- data.frame(Hours = c(1, 2, 3))  # Example: Input new study hours
+
+# Predict using the model with new data
+new_predictions <- predict(model, newdata = new_study)
+new_predictions
+
+```
+
+# Visualize the distribution of study hours]
+```{r}
+ggplot(study_hours, aes(x = Hours)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Study Hours", x = "Study Hours per Day", y = "Frequency")
+```
+
+ggplot(data, aes(x = StudyHours)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Study Hours", x = "Study Hours per Day", y = "Frequency")
+
+# Calculate the correlation between study hours and performance scores
+correlation <- cor(data$StudyHours, data$PerformanceScore)
+print(paste("Correlation between Study Hours and Performance Scores: ", correlation))
+
+# Visualize the correlation
+```{r}
+ggplot(study_hours, aes(x = Hours, y = Scores)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  labs(title = "Correlation between Study Hours and Performance Scores",
+       x = "Study Hours per Day", y = "Performance Score")
+
+```
+
+
